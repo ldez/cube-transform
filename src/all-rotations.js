@@ -1,0 +1,110 @@
+const allRotations = {
+  axeX: {
+    U: "B",
+    D: "F",
+    R: "R",
+    L: "L",
+    F: "U",
+    B: "D",
+    u: "b",
+    d: "f",
+    r: "r",
+    l: "l",
+    f: "u",
+    b: "d",
+    x: "x",
+    y: "z'",
+    z: "y'"
+  },
+  axeXPrime: {
+    U: "F",
+    D: "B",
+    R: "R",
+    L: "L",
+    F: "D",
+    B: "F",
+    u: "f",
+    d: "b",
+    r: "r",
+    l: "l",
+    f: "d",
+    b: "f",
+    x: "x",
+    y: "z",
+    z: "y"
+  },
+
+  axeY: {
+    U: "U",
+    D: "D",
+    R: "F",
+    L: "B",
+    F: "L",
+    B: "R",
+    u: "u",
+    d: "d",
+    r: "f",
+    l: "b",
+    f: "l",
+    b: "r",
+    x: "z'",
+    y: "y",
+    z: "x'"
+  },
+  axeYPrime: {
+    U: "U",
+    D: "D",
+    R: "B",
+    L: "F",
+    F: "R",
+    B: "L",
+    u: "u",
+    d: "d",
+    r: "b",
+    l: "f",
+    f: "r",
+    b: "l",
+    x: "z",
+    y: "y",
+    z: "x"
+  },
+
+  axeZ: {
+    U: "R",
+    D: "L",
+    R: "D",
+    L: "U",
+    F: "F",
+    B: "B",
+    u: "r",
+    d: "l",
+    r: "d",
+    l: "u",
+    f: "f",
+    b: "b",
+    x: "y'",
+    y: "x",
+    z: "z"
+  },
+  axeZPrime: {
+    U: "L",
+    D: "R",
+    R: "U",
+    L: "D",
+    F: "F",
+    B: "B",
+    u: "l",
+    d: "r",
+    r: "u",
+    l: "d",
+    f: "f",
+    b: "b",
+    x: "y",
+    y: "x'",
+    z: "z"
+  }
+};
+
+export {
+  allRotations
+};
