@@ -9,12 +9,8 @@ module.exports = function (config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jasmine'],
 
-
-    // ... normal karma configuration
-    files: [
-      // all files ending in "_test"
-      {
-        pattern: 'test/*.spec.js',
+    files: [{
+        pattern: 'src/**/*.js',
         watched: false
       },
       {
@@ -25,9 +21,8 @@ module.exports = function (config) {
     ],
 
     preprocessors: {
-      // add webpack as preprocessor
-      'test/*.spec.js': ['webpack'],
-      'test/**/*.spec.js': ['webpack']
+      'test/**/*.spec.js': ['webpack'],
+      'src/**/*.js': ['webpack', 'coverage']
     },
 
     // test results reporter to use
@@ -52,6 +47,23 @@ module.exports = function (config) {
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['PhantomJS'],
 
+    // Coverage Reporter configuration
+    coverageReporter: {
+      reporters: [
+        // File output
+        {
+          type: 'html',
+          dir: 'coverage/',
+          // supprime les dossiers spécifiques à chaque browser
+          subdir: '.'
+        },
+        // Console output
+        {
+          type: 'text'
+        }
+      ]
+    },
+
     webpack: {
       // karma watches the test entry points
       // (you don't need to specify the entry option)
@@ -72,8 +84,8 @@ module.exports = function (config) {
             test: /\.js?$/,
             exclude: /node_modules/,
             loader: 'babel-loader'
-      }
-    ]
+          }
+        ]
       },
     },
 

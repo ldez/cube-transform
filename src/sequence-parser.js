@@ -19,9 +19,9 @@ export default class SequenceParser {
     let temp;
     while ((temp = subSequenceRegex.exec(rawSequence)) !== null) {
       let expr = {
-        start: temp[1],
-        moves: temp[2],
-        end: temp[3]
+        start: temp[1] || '',
+        moves: temp[2] || '',
+        end: temp[3] || ''
       };
       subSequences.push(expr);
     }

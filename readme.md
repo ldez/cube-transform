@@ -35,3 +35,12 @@ npm i -D karma-webpack
   // TODO: gérer les rotations multiples (ex: x2)
   // TODO: gérer symétrie axiale
 
+------------
+
+U D - u d
+R L - r l
+F B - f b
+S
+M
+E
+x y z

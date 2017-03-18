@@ -7,10 +7,11 @@ export default class AlgorithmTransformer {
 
   /**
    * Opposite algorithm.
-   * @param   {string}   algorithm The algorithm.
+   * @param   {string} algorithm The algorithm.
+   * @param   {string} separator The moves separator (default: ' ')
    * @returns {string} The resulting algorithm.
    */
-  oppositeAlgorithm(algorithm) {
+  oppositeAlgorithm(algorithm, separator = ' ') {
     return this.sequenceParser
       .toSubSeqences(algorithm)
       .reverse()
@@ -18,51 +19,53 @@ export default class AlgorithmTransformer {
         subSequence.inverse = this.sequenceParser.toMoves(subSequence.moves)
           .reverse()
           .map(this.moveTransformer.opposite)
-          .join(' ');
+          .join(separator);
 
         return subSequence;
       })
       .map((subSequence) => `${subSequence.start}${subSequence.inverse}${subSequence.end}`)
-      .join(' ');
+      .join(separator);
   }
 
   /**
    * Reverse an algorithm.
    * @param   {string} algorithm The algorithm.
+   * @param   {string} separator The moves separator (default: ' ')
    * @returns {string} The resulting algorithm.
    */
-  reverseAlgorithm(algorithm) {
+  reverseAlgorithm(algorithm, separator = ' ') {
     return this.sequenceParser
       .toSubSeqences(algorithm)
       .map((subSequence) => {
         subSequence.inverse = this.sequenceParser.toMoves(subSequence.moves)
           .map(this.moveTransformer.opposite)
-          .join(' ');
+          .join(separator);
 
         return subSequence;
       })
       .map((subSequence) => `${subSequence.start}${subSequence.inverse}${subSequence.end}`)
-      .join(' ');
+      .join(separator);
   }
 
   /**
    * Apply a rotate on an algorithm.
    * @param   {string} algorithm The algorithm.
    * @param   {string} axe       The axe (x, y, z, x', y', z')
+   * @param   {string} separator The moves separator (default: ' ')
    * @returns {string} The resulting algorithm.
    */
-  rotateAlgorithm(algorithm, axe) {
+  rotateAlgorithm(algorithm, axe, separator = ' ') {
     return this.sequenceParser
       .toSubSeqences(algorithm)
       .map((subSequence) => {
         subSequence.rotate = this.sequenceParser.toMoves(subSequence.moves)
           .map((move => this.moveTransformer.rotate(move, axe)))
-          .join(' ');
+          .join(separator);
 
         return subSequence;
       })
       .map((subSequence) => `${subSequence.start}${subSequence.rotate}${subSequence.end}`)
-      .join(' ');
+      .join(separator);
   }
 
 }

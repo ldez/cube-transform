@@ -11,15 +11,15 @@
 
     _rotate(move, axeRotations) {
       const {
-        unit,
+        base,
         extra
-      } = this.destructure(move);
-      return this.normalize(axeRotations[unit] + extra);
+      } = this.parse(move);
+      return this.normalize(axeRotations[base] + extra);
     }
 
     rotate(move, axe) {
       let result;
-      if (axe === 'x') {
+      if (axe === "x") {
         result = this._rotate(move, allRotations.axeX);
       } else if (axe === "x'") {
         result = this._rotate(move, allRotations.axeXPrime);
@@ -32,25 +32,25 @@
       } else if (axe === "z'") {
         result = this._rotate(move, allRotations.axeZPrime);
       } else {
-        result = "fuck !";
+        throw new Error(`Fail! axe: ${axe}`);
       }
       return result;
     }
 
-    destructure(move) {
+    parse(move) {
       const moveRegex = /([A-Za-z])(['|\d]{0,2})/g;
 
       const moves = {};
       let temp;
       while ((temp = moveRegex.exec(move)) !== null) {
-        moves.unit = temp[1];
+        moves.base = temp[1];
         moves.extra = temp[2];
       }
       return moves;
     }
 
     normalize(move) {
-      return move.replace("''", "");
+      return move.replace("''", '');
     }
 
   }

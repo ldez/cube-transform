@@ -1,4 +1,4 @@
-window["cube-trasform"] =
+window["cube-transform"] =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -64,7 +64,7 @@ window["cube-trasform"] =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -90,6 +90,13 @@ var AlgorithmTransformer = function () {
     this.sequenceParser = sequenceParser;
   }
 
+  /**
+   * Opposite algorithm.
+   * @param   {string}   algorithm The algorithm.
+   * @returns {string} The resulting algorithm.
+   */
+
+
   _createClass(AlgorithmTransformer, [{
     key: 'oppositeAlgorithm',
     value: function oppositeAlgorithm(algorithm) {
@@ -103,14 +110,42 @@ var AlgorithmTransformer = function () {
         return '' + subSequence.start + subSequence.inverse + subSequence.end;
       }).join(' ');
     }
+
+    /**
+     * Reverse an algorithm.
+     * @param   {string} algorithm The algorithm.
+     * @returns {string} The resulting algorithm.
+     */
+
   }, {
-    key: 'rotateAlgorithm',
-    value: function rotateAlgorithm(algorithm, axe) {
+    key: 'reverseAlgorithm',
+    value: function reverseAlgorithm(algorithm) {
       var _this2 = this;
 
       return this.sequenceParser.toSubSeqences(algorithm).map(function (subSequence) {
-        subSequence.rotate = _this2.sequenceParser.toMoves(subSequence.moves).map(function (move) {
-          return _this2.moveTransformer.rotate(move, axe);
+        subSequence.inverse = _this2.sequenceParser.toMoves(subSequence.moves).map(_this2.moveTransformer.opposite).join(' ');
+
+        return subSequence;
+      }).map(function (subSequence) {
+        return '' + subSequence.start + subSequence.inverse + subSequence.end;
+      }).join(' ');
+    }
+
+    /**
+     * Apply a rotate on an algorithm.
+     * @param   {string} algorithm The algorithm.
+     * @param   {string} axe       The axe (x, y, z, x', y', z')
+     * @returns {string} The resulting algorithm.
+     */
+
+  }, {
+    key: 'rotateAlgorithm',
+    value: function rotateAlgorithm(algorithm, axe) {
+      var _this3 = this;
+
+      return this.sequenceParser.toSubSeqences(algorithm).map(function (subSequence) {
+        subSequence.rotate = _this3.sequenceParser.toMoves(subSequence.moves).map(function (move) {
+          return _this3.moveTransformer.rotate(move, axe);
         }).join(' ');
 
         return subSequence;
@@ -138,8 +173,149 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _allRotations = __webpack_require__(3);
+
+var _allRotations2 = _interopRequireDefault(_allRotations);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var MoveAnalyzer = function () {
+  function MoveAnalyzer() {
+    _classCallCheck(this, MoveAnalyzer);
+  }
+
+  _createClass(MoveAnalyzer, [{
+    key: "opposite",
+    value: function opposite(move) {
+      if (move.indexOf("'") === -1) {
+        return move + "'";
+      }
+      return move.replace("\'", '');
+    }
+  }, {
+    key: "_rotate",
+    value: function _rotate(move, axeRotations) {
+      var _destructure = this.destructure(move),
+          unit = _destructure.unit,
+          extra = _destructure.extra;
+
+      return this.normalize(axeRotations[unit] + extra);
+    }
+  }, {
+    key: "rotate",
+    value: function rotate(move, axe) {
+      var result = void 0;
+      if (axe === 'x') {
+        result = this._rotate(move, _allRotations2.default.axeX);
+      } else if (axe === "x'") {
+        result = this._rotate(move, _allRotations2.default.axeXPrime);
+      } else if (axe === "y") {
+        result = this._rotate(move, _allRotations2.default.axeY);
+      } else if (axe === "y'") {
+        result = this._rotate(move, _allRotations2.default.axeYPrime);
+      } else if (axe === "z") {
+        result = this._rotate(move, _allRotations2.default.axeZ);
+      } else if (axe === "z'") {
+        result = this._rotate(move, _allRotations2.default.axeZPrime);
+      } else {
+        result = "fuck !";
+      }
+      return result;
+    }
+  }, {
+    key: "destructure",
+    value: function destructure(move) {
+      var moveRegex = /([A-Za-z])(['|\d]{0,2})/g;
+
+      var moves = {};
+      var temp = void 0;
+      while ((temp = moveRegex.exec(move)) !== null) {
+        moves.unit = temp[1];
+        moves.extra = temp[2];
+      }
+      return moves;
+    }
+  }, {
+    key: "normalize",
+    value: function normalize(move) {
+      return move.replace("''", "");
+    }
+  }]);
+
+  return MoveAnalyzer;
+}();
+
+exports.default = MoveAnalyzer;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var SequenceParser = function () {
+  function SequenceParser() {
+    _classCallCheck(this, SequenceParser);
+  }
+
+  _createClass(SequenceParser, [{
+    key: "toMoves",
+    value: function toMoves(sequence) {
+      var moveRegex = /([A-Za-z]['|\d]{0,2})/g;
+
+      var moves = [];
+      var temp = void 0;
+      while ((temp = moveRegex.exec(sequence)) !== null) {
+        moves.push(temp[0]);
+      }
+      return moves;
+    }
+  }, {
+    key: "toSubSeqences",
+    value: function toSubSeqences(rawSequence) {
+      var subSequenceRegex = /([\(]?)([^\(^\)]+)((\)\d?)?)/g;
+
+      var subSequences = [];
+
+      var temp = void 0;
+      while ((temp = subSequenceRegex.exec(rawSequence)) !== null) {
+        var expr = {
+          start: temp[1],
+          moves: temp[2],
+          end: temp[3]
+        };
+        subSequences.push(expr);
+      }
+      return subSequences;
+    }
+  }]);
+
+  return SequenceParser;
+}();
+
+exports.default = SequenceParser;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var allRotations = {
   axeX: {
     U: "B",
@@ -247,133 +423,10 @@ var allRotations = {
   }
 };
 
-var MoveAnalyzer = function () {
-  function MoveAnalyzer() {
-    _classCallCheck(this, MoveAnalyzer);
-  }
-
-  _createClass(MoveAnalyzer, [{
-    key: "opposite",
-    value: function opposite(move) {
-      if (move.indexOf("'") === -1) {
-        return move + "'";
-      }
-      return move.replace("\'", '');
-    }
-  }, {
-    key: "_rotate",
-    value: function _rotate(move, axeRotations) {
-      var _destructure = this.destructure(move),
-          unit = _destructure.unit,
-          extra = _destructure.extra;
-
-      return this.normalize(axeRotations[unit] + extra);
-    }
-  }, {
-    key: "rotate",
-    value: function rotate(move, axe) {
-      var result = void 0;
-      if (axe === 'x') {
-        result = this._rotate(move, allRotations.axeX);
-      } else if (axe === "x'") {
-        result = this._rotate(move, allRotations.axeXPrime);
-      } else if (axe === "y") {
-        result = this._rotate(move, allRotations.axeY);
-      } else if (axe === "y'") {
-        result = this._rotate(move, allRotations.axeYPrime);
-      } else if (axe === "z") {
-        result = this._rotate(move, allRotations.axeZ);
-      } else if (axe === "z'") {
-        result = this._rotate(move, allRotations.axeZPrime);
-      } else {
-        result = "fuck !";
-      }
-      return result;
-    }
-  }, {
-    key: "destructure",
-    value: function destructure(move) {
-      var moveRegex = /([A-Za-z])(['|\d]{0,2})/g;
-
-      var moves = {};
-      var temp = void 0;
-      while ((temp = moveRegex.exec(move)) !== null) {
-        moves.unit = temp[1];
-        moves.extra = temp[2];
-      }
-      return moves;
-    }
-  }, {
-    key: "normalize",
-    value: function normalize(move) {
-      return move.replace("''", "");
-    }
-  }]);
-
-  return MoveAnalyzer;
-}();
-
-exports.default = MoveAnalyzer;
+exports.allRotations = allRotations;
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var SequenceParser = function () {
-  function SequenceParser() {
-    _classCallCheck(this, SequenceParser);
-  }
-
-  _createClass(SequenceParser, [{
-    key: "toMoves",
-    value: function toMoves(sequence) {
-      var moveRegex = /([A-Za-z]['|\d]{0,2})/g;
-
-      var moves = [];
-      var temp = void 0;
-      while ((temp = moveRegex.exec(sequence)) !== null) {
-        moves.push(temp[0]);
-      }
-      return moves;
-    }
-  }, {
-    key: "toSubSeqences",
-    value: function toSubSeqences(rawSequence) {
-      var subSequenceRegex = /([\(]?)([^\(^\)]+)((\)\d?)?)/g;
-
-      var subSequences = [];
-
-      var temp = void 0;
-      while ((temp = subSequenceRegex.exec(rawSequence)) !== null) {
-        var expr = {
-          start: temp[1],
-          moves: temp[2],
-          end: temp[3]
-        };
-        subSequences.push(expr);
-      }
-      return subSequences;
-    }
-  }]);
-
-  return SequenceParser;
-}();
-
-exports.default = SequenceParser;
-
-/***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
