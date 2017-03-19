@@ -38,7 +38,7 @@
     }
 
     parse(move) {
-      const moveRegex = /([A-Za-z])(['|\d]{0,2})/g;
+      const moveRegex = /([RLUDFBrludfbMESxyz])(['|\d]{0,2})/g;
 
       const moves = {};
       let temp;
