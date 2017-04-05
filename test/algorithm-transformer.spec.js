@@ -1,3 +1,4 @@
+
 import MoveTransformer from '../src/move-transformer';
 import SequenceParser from '../src/sequence-parser';
 import AlgorithmTransformer from '../src/algorithm-transformer';
@@ -23,4 +24,25 @@ describe('Opposite moves', () => {
     expect(algorithmTransformer.reverseAlgorithm("(RU'U')(R2'FRF')U2(R'FRF')"))
       .toBe("(R' U U) (R2 F' R' F) U2' (R F' R' F)");
   });
+
+  it("should rotate algorithm when rotation on axe x", () => {
+    expect(algorithmTransformer.rotateAlgorithm("(RU'U')(R2'FRF')U2(R'FRF')", "x"))
+      .toBe("(R B' B') (R2' U R U') B2 (R' U R U')");
+  });
+
+  it("should rotate algorithm when rotation on axe y", () => {
+    expect(algorithmTransformer.rotateAlgorithm("(RU'U')(R2'FRF')U2(R'FRF')", "y"))
+      .toBe("(F U' U') (F2' L F L') U2 (F' L F L')");
+  });
+
+  it("should rotate algorithm when rotation on axe z", () => {
+    expect(algorithmTransformer.rotateAlgorithm("(RU'U')(R2'FRF')U2(R'FRF')", "z"))
+      .toBe("(D R' R') (D2' F D F') R2 (D' F D F')");
+  });
+
+  it("nothing should be oposite of nothing", () => {
+    expect(algorithmTransformer.oppositeAlgorithm(""))
+      .toBe("");
+  });
+
 });

@@ -11,6 +11,7 @@ Support 3x3x3 moves:
 
 ## TODO
 
+- [ ] rotations de `S`, `M`, `E`
 - [ ] gérer les rotations multiples (ex: x2 ou xy)
 - [ ] gérer symétrie axiale
 - [ ] r/Rw - r'/Rw' - u/Uw - u'/Uw'- ...

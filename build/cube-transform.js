@@ -92,7 +92,8 @@ var AlgorithmTransformer = function () {
 
   /**
    * Opposite algorithm.
-   * @param   {string}   algorithm The algorithm.
+   * @param   {string} algorithm The algorithm.
+   * @param   {string} separator The moves separator (default: ' ')
    * @returns {string} The resulting algorithm.
    */
 
@@ -102,18 +103,21 @@ var AlgorithmTransformer = function () {
     value: function oppositeAlgorithm(algorithm) {
       var _this = this;
 
+      var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ' ';
+
       return this.sequenceParser.toSubSeqences(algorithm).reverse().map(function (subSequence) {
-        subSequence.inverse = _this.sequenceParser.toMoves(subSequence.moves).reverse().map(_this.moveTransformer.opposite).join(' ');
+        subSequence.inverse = _this.sequenceParser.toMoves(subSequence.moves).reverse().map(_this.moveTransformer.opposite).join(separator);
 
         return subSequence;
       }).map(function (subSequence) {
         return '' + subSequence.start + subSequence.inverse + subSequence.end;
-      }).join(' ');
+      }).join(separator);
     }
 
     /**
      * Reverse an algorithm.
      * @param   {string} algorithm The algorithm.
+     * @param   {string} separator The moves separator (default: ' ')
      * @returns {string} The resulting algorithm.
      */
 
@@ -122,19 +126,22 @@ var AlgorithmTransformer = function () {
     value: function reverseAlgorithm(algorithm) {
       var _this2 = this;
 
+      var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ' ';
+
       return this.sequenceParser.toSubSeqences(algorithm).map(function (subSequence) {
-        subSequence.inverse = _this2.sequenceParser.toMoves(subSequence.moves).map(_this2.moveTransformer.opposite).join(' ');
+        subSequence.inverse = _this2.sequenceParser.toMoves(subSequence.moves).map(_this2.moveTransformer.opposite).join(separator);
 
         return subSequence;
       }).map(function (subSequence) {
         return '' + subSequence.start + subSequence.inverse + subSequence.end;
-      }).join(' ');
+      }).join(separator);
     }
 
     /**
      * Apply a rotate on an algorithm.
      * @param   {string} algorithm The algorithm.
      * @param   {string} axe       The axe (x, y, z, x', y', z')
+     * @param   {string} separator The moves separator (default: ' ')
      * @returns {string} The resulting algorithm.
      */
 
@@ -143,15 +150,17 @@ var AlgorithmTransformer = function () {
     value: function rotateAlgorithm(algorithm, axe) {
       var _this3 = this;
 
+      var separator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ' ';
+
       return this.sequenceParser.toSubSeqences(algorithm).map(function (subSequence) {
         subSequence.rotate = _this3.sequenceParser.toMoves(subSequence.moves).map(function (move) {
           return _this3.moveTransformer.rotate(move, axe);
-        }).join(' ');
+        }).join(separator);
 
         return subSequence;
       }).map(function (subSequence) {
         return '' + subSequence.start + subSequence.rotate + subSequence.end;
-      }).join(' ');
+      }).join(separator);
     }
   }]);
 
@@ -175,18 +184,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _allRotations = __webpack_require__(3);
 
-var _allRotations2 = _interopRequireDefault(_allRotations);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var MoveAnalyzer = function () {
-  function MoveAnalyzer() {
-    _classCallCheck(this, MoveAnalyzer);
+var MoveTransformer = function () {
+  function MoveTransformer() {
+    _classCallCheck(this, MoveTransformer);
   }
 
-  _createClass(MoveAnalyzer, [{
+  _createClass(MoveTransformer, [{
     key: "opposite",
     value: function opposite(move) {
       if (move.indexOf("'") === -1) {
@@ -197,42 +202,42 @@ var MoveAnalyzer = function () {
   }, {
     key: "_rotate",
     value: function _rotate(move, axeRotations) {
-      var _destructure = this.destructure(move),
-          unit = _destructure.unit,
-          extra = _destructure.extra;
+      var _parse = this.parse(move),
+          base = _parse.base,
+          extra = _parse.extra;
 
-      return this.normalize(axeRotations[unit] + extra);
+      return this.normalize(axeRotations[base] + extra);
     }
   }, {
     key: "rotate",
     value: function rotate(move, axe) {
       var result = void 0;
-      if (axe === 'x') {
-        result = this._rotate(move, _allRotations2.default.axeX);
+      if (axe === "x") {
+        result = this._rotate(move, _allRotations.allRotations.axeX);
       } else if (axe === "x'") {
-        result = this._rotate(move, _allRotations2.default.axeXPrime);
+        result = this._rotate(move, _allRotations.allRotations.axeXPrime);
       } else if (axe === "y") {
-        result = this._rotate(move, _allRotations2.default.axeY);
+        result = this._rotate(move, _allRotations.allRotations.axeY);
       } else if (axe === "y'") {
-        result = this._rotate(move, _allRotations2.default.axeYPrime);
+        result = this._rotate(move, _allRotations.allRotations.axeYPrime);
       } else if (axe === "z") {
-        result = this._rotate(move, _allRotations2.default.axeZ);
+        result = this._rotate(move, _allRotations.allRotations.axeZ);
       } else if (axe === "z'") {
-        result = this._rotate(move, _allRotations2.default.axeZPrime);
+        result = this._rotate(move, _allRotations.allRotations.axeZPrime);
       } else {
-        result = "fuck !";
+        throw new Error("Fail! axe: " + axe);
       }
       return result;
     }
   }, {
-    key: "destructure",
-    value: function destructure(move) {
-      var moveRegex = /([A-Za-z])(['|\d]{0,2})/g;
+    key: "parse",
+    value: function parse(move) {
+      var moveRegex = /([RLUDFBrludfbMESxyz])(['|\d]{0,2})/g;
 
       var moves = {};
       var temp = void 0;
       while ((temp = moveRegex.exec(move)) !== null) {
-        moves.unit = temp[1];
+        moves.base = temp[1];
         moves.extra = temp[2];
       }
       return moves;
@@ -240,14 +245,14 @@ var MoveAnalyzer = function () {
   }, {
     key: "normalize",
     value: function normalize(move) {
-      return move.replace("''", "");
+      return move.replace("''", '');
     }
   }]);
 
-  return MoveAnalyzer;
+  return MoveTransformer;
 }();
 
-exports.default = MoveAnalyzer;
+exports.default = MoveTransformer;
 
 /***/ }),
 /* 2 */
@@ -270,9 +275,9 @@ var SequenceParser = function () {
   }
 
   _createClass(SequenceParser, [{
-    key: "toMoves",
+    key: 'toMoves',
     value: function toMoves(sequence) {
-      var moveRegex = /([A-Za-z]['|\d]{0,2})/g;
+      var moveRegex = /([RLUDFBrludfbMESxyz]['|\d]{0,2})/g;
 
       var moves = [];
       var temp = void 0;
@@ -282,7 +287,7 @@ var SequenceParser = function () {
       return moves;
     }
   }, {
-    key: "toSubSeqences",
+    key: 'toSubSeqences',
     value: function toSubSeqences(rawSequence) {
       var subSequenceRegex = /([\(]?)([^\(^\)]+)((\)\d?)?)/g;
 
@@ -291,9 +296,9 @@ var SequenceParser = function () {
       var temp = void 0;
       while ((temp = subSequenceRegex.exec(rawSequence)) !== null) {
         var expr = {
-          start: temp[1],
-          moves: temp[2],
-          end: temp[3]
+          start: temp[1] || '',
+          moves: temp[2] || '',
+          end: temp[3] || ''
         };
         subSequences.push(expr);
       }
