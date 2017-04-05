@@ -12,10 +12,11 @@ Support 3x3x3 moves:
 * `E`
 * `x` `y` `z`
 
+## API
 
-- `oppositeAlgorithm(algorithm)`: Opposite algorithm.
-- `reverseAlgorithm(algorithm)`: Reverse an algorithm.
-- `rotateAlgorithm(algorithm, axe)`: Apply a rotation on an algorithm.
+- `const result = cubeTranform.oppositeAlgorithm(algorithm);`: Opposite algorithm.
+- `const result = cubeTranform.reverseAlgorithm(algorithm);`: Reverse an algorithm.
+- `const result = cubeTranform.rotateAlgorithm(algorithm, axe);`: Apply a rotation on an algorithm.
 
 ## TODO
 
