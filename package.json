@@ -2,7 +2,7 @@
   "name": "cube-transform",
   "version": "1.0.0",
   "description": "Cube transformations",
-  "main": "src/cube-transform.js",
+  "main": "build/cube-transform.js",
   "scripts": {
     "build": "webpack && NODE_ENV=development webpack",
     "dev": "webpack-dev-server --inline --hot",
