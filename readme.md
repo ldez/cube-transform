@@ -7,21 +7,19 @@ Support 3x3x3 moves:
 * `U` `D` - `u` `d`
 * `R` `L` - `r` `l`
 * `F` `B` - `f` `b`
-* `S`
-* `M`
-* `E`
+* `S`, `M`, `E`
 * `x` `y` `z`
+* support group `()` (example: `(RU'R'U)LD'FB`)
+* support repetition (example: `R2U3` or `(RU'R'U)2`)
 
 ## API
 
-- `const result = cubeTranform.oppositeAlgorithm(algorithm);`: Opposite algorithm.
-- `const result = cubeTranform.reverseAlgorithm(algorithm);`: Reverse an algorithm.
-- `const result = cubeTranform.rotateAlgorithm(algorithm, axe);`: Apply a rotation on an algorithm.
+See [documentation](https://ldez.github.io/cube-transform/)
 
 ## TODO
 
-- [ ] rotations de `S`, `M`, `E`
-- [ ] gérer les rotations multiples (ex: x2 ou xy)
-- [ ] gérer symétrie axiale
+- [ ] rotation of `S`, `M`, `E`
+- [ ] multiple rotations (`x2` or `xy`)
+- [ ] manage axial symmetry
 - [ ] r/Rw - r'/Rw' - u/Uw - u'/Uw'- ...
-- [ ] gérer `[]`
+- [ ] manage `[]`
