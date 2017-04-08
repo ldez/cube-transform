@@ -7,7 +7,9 @@
     "build": "webpack && NODE_ENV=development webpack",
     "dev": "webpack-dev-server --inline --hot",
     "test": "karma start",
-    "docs": "documentation build src/** -f html -o docs"
+    "docs": "rm -rf docs; documentation lint src/**; documentation build src/cube-transform.js -a public -f html -o docs -g --name 'Cube Transform'",
+    "docs:serve" : "documentation serve src/cube-transform.js -a public -w -g --name 'Cube Transform'",
+    "docs:lint": "documentation lint src/**"
   },
   "keywords": [
     "rubik's cube"

@@ -11,6 +11,7 @@ export default class AlgorithmTransformer {
    * @param   {string} algorithm The algorithm.
    * @param   {string} separator The moves separator (default: ' ')
    * @returns {string} The new algorithm.
+   * @public
    */
   oppositeAlgorithm(algorithm, separator = ' ') {
     return this.sequenceParser
@@ -34,6 +35,7 @@ export default class AlgorithmTransformer {
    * @param   {string} algorithm The algorithm.
    * @param   {string} separator The moves separator (default: ' ')
    * @returns {string} The new algorithm.
+   * @public
    */
   reverseAlgorithm(algorithm, separator = ' ') {
     return this.sequenceParser
@@ -53,9 +55,10 @@ export default class AlgorithmTransformer {
    * Apply a rotate on an algorithm.
    *
    * @param   {string} algorithm The algorithm.
-   * @param   {string} axe       The axe (x, y, z, x', y', z')
+   * @param   {string} axe       The axe (`x`, `y`, `z`, `x'`, `y'`, `z'`)
    * @param   {string} separator The moves separator (default: ' ')
    * @returns {string} The new algorithm.
+   * @public
    */
   rotateAlgorithm(algorithm, axe, separator = ' ') {
     return this.sequenceParser
