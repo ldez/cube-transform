@@ -31,18 +31,6 @@ describe('Rotate moves', () => {
       expect(moveTransformer.rotate("B", axe)).toBe("D");
     });
 
-    it("should be S' when E", () => {
-      expect(moveTransformer.rotate("E", axe)).toBe("S'");
-    });
-
-    it("should be M when M", () => {
-      expect(moveTransformer.rotate("M", axe)).toBe("M");
-    });
-
-    it("should be E' when S", () => {
-      expect(moveTransformer.rotate("S", axe)).toBe("E'");
-    });
-
     it("should be x when x", () => {
       expect(moveTransformer.rotate("x", axe)).toBe("x");
     });
@@ -81,18 +69,6 @@ describe('Rotate moves', () => {
 
     it("should be R when B", () => {
       expect(moveTransformer.rotate("B", axe)).toBe("R");
-    });
-
-    it("should be E when E", () => {
-      expect(moveTransformer.rotate("E", axe)).toBe("E");
-    });
-
-    it("should be S' when M", () => {
-      expect(moveTransformer.rotate("M", axe)).toBe("S'");
-    });
-
-    it("should be M when S", () => {
-      expect(moveTransformer.rotate("S", axe)).toBe("M");
     });
 
     it("should be z' when x", () => {
@@ -135,18 +111,6 @@ describe('Rotate moves', () => {
       expect(moveTransformer.rotate("B", "z")).toBe("B");
     });
 
-    it("should be S' when E", () => {
-      expect(moveTransformer.rotate("E", axe)).toBe("M");
-    });
-
-    it("should be M when M", () => {
-      expect(moveTransformer.rotate("M", axe)).toBe("E'");
-    });
-
-    it("should be E' when S", () => {
-      expect(moveTransformer.rotate("S", axe)).toBe("S");
-    });
-
     it("should be y' when x", () => {
       expect(moveTransformer.rotate("x", axe)).toBe("y'");
     });
@@ -159,14 +123,6 @@ describe('Rotate moves', () => {
       expect(moveTransformer.rotate("z", axe)).toBe("z");
     });
 
-  });
-
-
-  xit("dsjqkh", () => {
-    const move = "TR2'";
-    const moveRegex = /([T]?[RLUDFBrludfbMESxyz])(['|\d]{0,2})/;
-    const moves = move.match(moveRegex);
-    expect(moves).toEqual(["R2'", "R", "2'"]);
   });
 
 });
