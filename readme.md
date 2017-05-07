@@ -21,5 +21,5 @@ See [documentation](https://ldez.github.io/cube-transform/)
 - [ ] rotation of `S`, `M`, `E`
 - [ ] multiple rotations (`x2` or `xy`)
 - [ ] manage axial symmetry
-- [ ] r/Rw - r'/Rw' - u/Uw - u'/Uw'- ...
+- [ ] `r/Rw` - `r'/Rw'` - `u/Uw` - `u'/Uw'`- ...
 - [ ] manage `[]`
