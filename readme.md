@@ -1,5 +1,7 @@
 # Cube Transformer
 
+[![Build Status](https://travis-ci.org/ldez/cube-transform.svg?branch=master)](https://travis-ci.org/ldez/cube-transform)
+
 Parse cube's algorithm and apply a transformation.
 
 Support 3x3x3 moves:
