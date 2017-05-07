@@ -14,3 +14,13 @@ branches:
 
 script:
   - npm run test
+
+after_success:
+  - npm run docs
+
+deploy:
+- provider: pages
+  edge: true
+  github_token: ${GITHUB_TOKEN}
+  local_dir: docs
+  skip_cleanup: true
